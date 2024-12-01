@@ -1,0 +1,227 @@
+{
+  "$schema": "https://raw.githubusercontent.com/martinring/tmlanguage/master/tmlanguage.json",
+  "name": "sqon",
+  "patterns": [
+    { "include": "#strictDeclaration" },
+    { "include": "#comments" },
+    { "include": "#sections" },
+    { "include": "#validations" }
+  ],
+  "repository": {
+    "strictDeclaration": {
+      "patterns": [
+        {
+          "name": "keyword.operator.strict.sqon",
+          "match": "\\*STRICT=(TRUE|FALSE)"
+        }
+      ]
+    },
+    "sections": {
+      "patterns": [
+        {
+          "name": "keyword.section.schema.sqon",
+          "begin": "@schema",
+          "end": "@end",
+          "contentName": "meta.section.schema.sqon",
+          "patterns": [
+            { "include": "#fields" },
+            { "include": "#comments" },
+            { "include": "#types" }
+          ]
+        },
+        {
+          "name": "keyword.section.validation.sqon",
+          "begin": "@validations",
+          "end": "@end",
+          "contentName": "meta.section.validations.sqon",
+          "patterns": [
+            { "include": "#fields" },
+            { "include": "#comments" },
+            { "include": "#validations" }
+          ]
+        },
+        {
+          "name": "keyword.section.records.sqon",
+          "begin": "@records",
+          "end": "@end",
+          "contentName": "meta.section.records.sqon",
+          "patterns": [
+            { "include": "#comments" },
+            { "include": "#records-patterns" }  
+          ]
+        }
+      ]
+    },
+    "fields": {
+      "patterns": [
+        {
+          "name": "variable.name.sqon",
+          "match": "\\b[A-Za-z0-9_]+(?=\\s*->)"
+        }
+      ]
+    },
+    "records-patterns": { 
+      "patterns": [
+        {
+          "name": "variable.name.records.sqon",
+          "match": "\\b[A-Za-z0-9_]+(?=\\s*->)"
+        },
+      
+        {
+          "name": "constant.language.records.sqon",
+          "match": "(?<=\\s*)\\b(recordType|recordID|recordValue)\\b"
+        },
+        {
+          "name": "keyword.operator.arrow.records.sqon",
+          "match": "->"
+        },
+        {
+          "name": "keyword.operator.records.arrow.sqon",
+          "match": "#\\d+\\s*->"
+        },
+        {
+          "name": "record.data.sqon",
+          "match": "(#\\d+\\s*->)([^#\\n]+)(?=#\\d+\\s*->|@end)"
+        },
+        {
+          "name": "record.data.line.sqon",
+          "match": "(?<=\\n)(.*?)(?=\\n|#\\d+\\s*->|@end)"
+        },
+        {
+          "name": "variable.name.records.sqon",
+          "match": "\\b[A-Za-z0-9_]+(?=\\s*->)"
+        },
+        {
+          "name": "keyword.operator.arrow.records.sqon",
+          "match": "->"
+        },
+        {
+          "name": "constant.language.string.sqon",
+          "match": "\"([^\"]*)\""
+        },
+        {
+          "name": "constant.language.date.sqon",
+          "match": "\\b(\\d{1,2}(st|nd|rd|th)?\\s+\\w+\\s+\\d{4}|\\d{1,2}[/-]\\d{1,2}[/-]\\d{2,4}|\\d{4}[/-]\\d{1,2}[/-]\\d{1,2}|\\d{1,2}:\\d{2}:\\d{2}([AP]M)?|\\d{10}|\\d{13}|\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}(\\.\\d+)?(Z|([+-]\\d{2}:\\d{2}))?)\\b"
+        },        
+        {
+          "name": "constant.numeric.sqon",
+          "match": "\\b(\\d+(?:\\.\\d+)?)\\b"
+        },
+        {
+          "name": "constant.language.null.sqon",
+          "match": "NULL"
+        },
+        {
+          "name": "constant.language.boolean.sqon",
+          "match": "(TRUE|FALSE)"
+        },
+        {
+          "name": "constant.language.buffer.sqon",
+          "match": "<Buffer[\\s\\S]*>"
+        }
+        
+      ]
+    },
+    "validations": {
+      "patterns": [ 
+        {
+          "name": "variable.name.sqon.validation",
+          "match": "\\b[A-Za-z0-9_]+(\\.[A-Za-z0-9_]+)*(?=\\s*->)"
+        },
+        {
+          "name": "invalid.sqon.validation.arrow-spacing",
+          "match": "(?<=\\S)->|->(?=\\S)"
+        },
+        {
+          "name": "keyword.operator.arrow.sqon.validation",
+          "match": "->"
+        },
+        {
+          "name": "invalid.sqon.validation.rulename",
+          "match": "(?<=->\\s*)\\b(?!required|minLength|maxLength|isDate|minDate|maxDate|isBoolean|hasProperties|enum|notNull|pattern|isUnique|isNull|min|max|isPositive|isNegative|isNumeric|isInteger|isFloat|isEmail|isURL|isAlpha|isAlphanumeric|isIP|trim|lowercase|uppercase\\b)\\w+"
+        },
+        {
+          "name": "invalid.sqon.validation",
+          "match": "^(?!.*@end)(?!.*\\w+\\s*->).*$|^(?:(?!\\w+\\s*->).)*$|^(?:(\\w*)\\s*->\\s*([^;]+)(?:\\s*;)?)+$|^@end$"
+        },
+        {
+          "name": "invalid.sqon.validation.spacing",
+          "match": "(?<=\\S)\\s=|=\\s|\\s=\\s"
+        },
+        {
+          "name": "invalid.sqon.validation.duplicateRule",
+          "match": "(?<=->)(?:.*?\\b(required|minLength|maxLength|isDate|minDate|maxDate|isBoolean|hasProperties|enum|notNull|pattern|isUnique|isNull|min|max|isPositive|isNegative|isNumeric|isInteger|isFloat|isEmail|isURL|isAlpha|isAlphanumeric|isIP|trim|lowercase|uppercase)\\b.*?)+.*?\\b\\1\\b"
+        },
+        {
+          "name": "invalid.sqon.validation.missing-semicolon",
+          "match": "(?<=\\b(required|minLength|maxLength|isDate|minDate|maxDate|isBoolean|hasProperties|enum|notNull|pattern|isUnique|isNull|min|max|isPositive|isNegative|isNumeric|isInteger|isFloat|isEmail|isURL|isAlpha|isAlphanumeric|isIP|trim|lowercase|uppercase)\\s*=\\s*[^;\\s]+)\\s+(?=\\b(required|minLength|maxLength|isDate|minDate|maxDate|isBoolean|hasProperties|enum|notNull|pattern|isUnique|isNull|min|max|isPositive|isNegative|isNumeric|isInteger|isFloat|isEmail|isURL|isAlpha|isAlphanumeric|isIP|trim|lowercase|uppercase)\\s*=)"
+        },
+        {
+          "name": "constant.language.sqon.validation",
+          "match": "\\b(required|minLength|maxLength|isDate|minDate|maxDate|isBoolean|hasProperties|enum|notNull|pattern|isUnique|isNull|min|max|isPositive|isNegative|isNumeric|isInteger|isFloat|isEmail|isURL|isAlpha|isAlphanumeric|isIP|trim|lowercase|uppercase)\\b"
+        },
+        {
+          "name": "keyword.operator.equals.sqon.validation",
+          "match": "=" 
+        },
+        {
+          "name": "constant.language.boolean.sqon.validation",
+          "match": "(?<=\\s|^)(true|false)(?=\\s|$)"  
+        },
+        {
+          "name": "constant.numeric.sqon.validation",
+          "match": "\\b(\\d+(?:\\.\\d+)?)\\b" 
+        },
+        {
+          "name": "constant.language.string.sqon.validation",  
+          "match": "\"([^\"]*)\""  
+        },
+        {
+          "name": "constant.language.array.sqon.validation",  
+          "match": "\\[\\s*\\]" 
+        },
+        {
+          "name": "constant.language.array.sqon.validation.notation", 
+          "match": "\\[|\\]"  
+        },
+        {
+          "name": "constant.language.array.string.sqon.validation", 
+          "match": "\\[\\s*\"([^\"]*)\"(?:\\s*,\\s*\"([^\"]+)\")*\\s*\\]"  
+        },
+        {
+          "name": "constant.language.array.number.sqon.validation", 
+          "match": "\\[\\s*\\d+(?:\\.\\d+)?(?:\\s*,\\s*\\d+(?:\\.\\d+)?)*\\s*\\]"  
+        },
+        {
+          "name": "invalid.sqon.value",
+          "match": "\\b(?!true|false|\\d+(?:\\.\\d+)?|\"[^\"]*\"|\\[.*\\])\\S+\\b"
+        },
+        {
+          "name": "invalid.sqon.array.value",
+          "match": "(?<=\\[)(?!\\s*[\"\\d])[^\\]]*(?=\\])"
+        },
+        {
+          "name": "invalid.sqon.comma",
+          "match": "(?<=\\w+)\\s*,\\s*(?=,)|(?<!\\])\\s*,\\s*$" 
+        },
+        {
+          "name": "invalid.sqon.colon",
+          "match": "(?<=\\w+)\\s*:\\s*(?=\\w+)"
+        },
+        {
+          "name": "constant.language.string.sqon.validation.empty",
+          "match": "\"\""
+        }
+      ]    
+    },
+    "comments": {
+      "patterns": [
+        {
+          "name": "comment.line.sqon",
+          "match": "!#.*$"
+        }
+      ]
+    }
+  },
+  "scopeName": "source.sqon"
+}

@@ -1,0 +1,47 @@
+{
+  "name": "sqon",
+  "author": {
+    "name": "Elias79"
+  },
+  "publisher": "Elias79",
+  "displayName": "SQON",
+  "description": "Tool for .sqon files",
+  "version": "1.0.2",
+  "icon": "icons/sqon-icon.png",
+  "galleryBanner": {
+    "color": "#C80000",
+    "theme": "dark"
+  },
+  "engines": {
+    "vscode": "^1.95.0"
+  },
+  "categories": [
+    "Programming Languages"
+  ],
+  "pricing": "Free",
+  "contributes": {
+    "languages": [{
+      "id": "sqon",
+      "aliases": ["sqon"],
+      "extensions": [".sqon"],
+      "configuration": "./language-configuration.json"
+    }],
+    "grammars": [{
+      "language": "sqon",
+      "scopeName": "source.sqon",
+      "path": "./syntaxes/sqon.tmLanguage.json"
+    }],
+    "iconThemes": [{
+      "id": "sqon-icon",
+      "label": "SQON file icon",
+      "path": "./icon-theme.json"
+      }]
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/EIAS79/SQON"
+  },
+  "bugs": {
+    "url": "https://github.com/EIAS79/SQON/issues"
+  }
+}

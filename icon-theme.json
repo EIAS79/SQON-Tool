@@ -1,0 +1,16 @@
+{
+    "iconDefinitions": {
+      "_sqon_file": {
+        "iconPath": "./icons/sqon-icon.png"
+      }
+    },
+    "fileExtensions": {
+      "sqon": "_sqon_file"
+    },
+    "light": {
+      "file": "_sqon_file"
+    },
+    "highContrast": {
+      "file": "_sqon_file"
+    }
+  }
